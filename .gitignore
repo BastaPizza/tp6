@@ -1,0 +1,8 @@
+# Ignorer les fichiers générés par Composer
+/vendor/
+/composer.lock
+
+# Ignorer les fichiers temporaires et de configuration
+*.log
+*.cache
+*.bak

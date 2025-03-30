@@ -1,0 +1,13 @@
+{
+    "name": "ton/projet",
+    "description": "Une description de ton projet",
+    "require": {
+      "php": "^7.4 || ^8.0",
+      "squizlabs/php_codesniffer": "^3.5"
+    },
+    "scripts": {
+   "cs": "phpcs --standard=PSR1,PSR12 src/"
+}
+
+  }
+  
