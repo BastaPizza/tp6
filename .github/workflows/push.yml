@@ -1,0 +1,17 @@
+name: Afficher les fichiers lors d'un push
+
+on:
+  push:
+    branches:
+      - mes-dates  # Cette action sera exécutée pour les pushes sur la branche mes-dates
+
+jobs:
+  show-files:
+    runs-on: ubuntu-latest  # Utilisation de l'environnement Ubuntu pour le workflow
+
+    steps:
+      - name: Checkout du code
+        uses: actions/checkout@v2  # Récupérer le code du dépôt
+
+      - name: Afficher la liste des fichiers
+        run: ls -la  # Exécuter la commande ls pour afficher les fichiers
