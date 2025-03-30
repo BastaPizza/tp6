@@ -1,17 +1,32 @@
-name: Afficher les fichiers lors d'un push
+name: Afficher les fichiers et Lint avec PHPCS
 
 on:
   push:
     branches:
-      - mes-dates  # Cette action sera exécutée pour les pushes sur la branche mes-dates
+      - mes-dates  # La branche sur laquelle l'action se déclenche
 
 jobs:
   show-files:
-    runs-on: ubuntu-latest  # Utilisation de l'environnement Ubuntu pour le workflow
+    runs-on: ubuntu-latest  # Utilisation de Ubuntu comme système d'exploitation
 
     steps:
       - name: Checkout du code
-        uses: actions/checkout@v2  # Récupérer le code du dépôt
+        uses: actions/checkout@v2  # Récupère le code du dépôt
 
       - name: Afficher la liste des fichiers
-        run: ls -la  # Exécuter la commande ls pour afficher les fichiers
+        run: ls -la  # Exécute la commande ls pour afficher les fichiers du dépôt
+
+      - name: Installer PHP et Composer
+        run: |
+          sudo apt update
+          sudo apt install php php-cli php-curl
+          curl -sS https://getcomposer.org/installer | php
+          sudo mv composer.phar /usr/local/bin/composer
+
+      - name: Installer PHPCS
+        run: |
+          composer global require "squizlabs/php_codesniffer=*"
+
+      - name: Exécuter PHPCS (Linter avec la norme de base)
+        run: |
+          phpcs --standard=PSR2 src/MesDates.php  # Vérifie le code de la classe MesDates.php avec la norme PSR2
