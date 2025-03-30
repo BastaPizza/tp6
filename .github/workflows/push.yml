@@ -1,20 +1,17 @@
-name: Afficher les fichiers et Lint avec PHPCS
+name: Lint avec PHPCS
 
 on:
   push:
     branches:
-      - mes-dates  # La branche sur laquelle l'action se déclenche
+      - mes-dates  # Sur cette branche, PHPCS sera exécuté
 
 jobs:
-  show-files:
-    runs-on: ubuntu-latest  # Utilisation de Ubuntu comme système d'exploitation
+  phpcs:
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout du code
-        uses: actions/checkout@v2  # Récupère le code du dépôt
-
-      - name: Afficher la liste des fichiers
-        run: ls -la  # Exécute la commande ls pour afficher les fichiers du dépôt
+        uses: actions/checkout@v2
 
       - name: Installer PHP et Composer
         run: |
@@ -26,7 +23,8 @@ jobs:
       - name: Installer PHPCS
         run: |
           composer global require "squizlabs/php_codesniffer=*"
+          export PATH=$HOME/.composer/vendor/bin:$PATH  # Ajoute PHPCS au PATH global
 
-      - name: Exécuter PHPCS (Linter avec la norme de base)
+      - name: Exécuter PHPCS
         run: |
           phpcs --standard=PSR2 src/MesDates.php  # Vérifie le code de la classe MesDates.php avec la norme PSR2
