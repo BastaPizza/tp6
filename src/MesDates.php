@@ -41,3 +41,8 @@ class MesDates
         return json_encode(['demain' => $demain->format('d-m-Y')]);
     }
 }
+/**
+ * Class MesDates
+ *
+ * Fournit des méthodes pour manipuler des dates.
+ */
