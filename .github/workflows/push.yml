@@ -1,30 +1,40 @@
-name: Lint avec PHPCS
+name: Lint PHP with PHPCS
 
 on:
   push:
     branches:
-      - mes-dates  # Sur cette branche, PHPCS sera exécuté
+      - mes-dates  # Spécifie la branche pour laquelle l'action doit s'exécuter
+  pull_request:
+    branches:
+      - mes-dates  # Si une pull request est faite vers cette branche, cela lancera aussi l'action
 
 jobs:
-  phpcs:
-    runs-on: ubuntu-latest
+  lint:
+    runs-on: ubuntu-latest  # Utilise une machine virtuelle Ubuntu pour exécuter l'action
 
     steps:
-      - name: Checkout du code
-        uses: actions/checkout@v2
+      # 1. Checkout du code du dépôt
+      - name: Checkout code
+        uses: actions/checkout@v3  # Cette étape permet d'obtenir le code du dépôt
 
-      - name: Installer PHP et Composer
-        run: |
-          sudo apt update
-          sudo apt install php php-cli php-curl
-          curl -sS https://getcomposer.org/installer | php
-          sudo mv composer.phar /usr/local/bin/composer
+      # 2. Installer PHP (Assurez-vous que la version est correcte pour votre projet)
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '7.4'  # Remplacez par la version de PHP que vous utilisez
 
-      - name: Installer PHPCS
+      # 3. Installer Composer (si vous utilisez Composer pour gérer les dépendances PHP)
+      - name: Install Composer
         run: |
-          composer global require "squizlabs/php_codesniffer=*"
-          export PATH=$HOME/.composer/vendor/bin:$PATH  # Ajoute PHPCS au PATH global
+          curl -sS https://getcomposer.org/installer | php  # Télécharge et installe Composer
+          php composer.phar install  # Installe les dépendances définies dans composer.json
 
-      - name: Exécuter PHPCS
+      # 4. Installer PHP CodeSniffer (phpcs)
+      - name: Install PHPCS
         run: |
-          phpcs --standard=PSR2 src/MesDates.php  # Vérifie le code de la classe MesDates.php avec la norme PSR2
+          composer require --dev squizlabs/php_codesniffer  # Installe PHPCS en tant que dépendance de développement
+
+      # 5. Vérifier le code avec PHPCS
+      - name: Run PHPCS
+        run: |
+          vendor/bin/phpcs --standard=PSR2 src/MesDates.php  # Exécute PHPCS sur le fichier src/MesDates.php en utilisant la norme PSR2
