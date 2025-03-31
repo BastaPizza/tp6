@@ -1,7 +1,7 @@
 <?php
 /**
  * PHP version 8.3
- * 
+ *
  * Classe MesDates
  *
  * Cette classe fournit des méthodes pour obtenir des dates, comme la date de demain.
@@ -41,8 +41,3 @@ class MesDates
         return json_encode(['demain' => $demain->format('d-m-Y')]);
     }
 }
-/**
- * Class MesDates
- *
- * Fournit des méthodes pour manipuler des dates.
- */
