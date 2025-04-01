@@ -1,4 +1,4 @@
-name: Verify Files Structure
+name: Vérification Arborescence
 
 on:
   pull_request:
@@ -6,11 +6,12 @@ on:
       - master
 
 jobs:
-  verify_files:
+  check_structure:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout code
+      - name: Checkout du code
         uses: actions/checkout@v3
 
-      - name: Run file verification script
+      - name: Vérification de l'arborescence
         run: python .github/scripts/verif.py
