@@ -1,0 +1,16 @@
+name: Verify Files Structure
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  verify_files:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Run file verification script
+        run: python .github/scripts/verif.py
