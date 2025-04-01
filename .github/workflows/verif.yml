@@ -3,7 +3,7 @@ name: Verify Files Structure
 on:
   pull_request:
     branches:
-      - main
+      - master
 
 jobs:
   verify_files:
